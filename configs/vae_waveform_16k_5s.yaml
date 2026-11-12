@@ -1,0 +1,50 @@
+experiment:
+  name: vae_waveform_16k_5s
+  output_dir: runs/vae_waveform_16k_5s
+  seed: 42
+data:
+  sample_rate: 16000
+  segment_seconds: 5.0
+  segment_validation: true
+  max_full_seconds: 60.0
+  manifest_mode: clean
+  audio_root: null
+  train_manifest: data/train_clean.list
+  valid_manifest: data/valid_clean.list
+  test_manifest: data/test_clean.list
+  class_labels:
+    train: null
+    valid: null
+    test: null
+  num_workers: 0
+model:
+  type: waveform_vae
+  channels: [32, 48, 64, 96, 128]
+  strides: [4, 4, 4, 2]
+  latent_channels: 64
+  classification_head: false
+  num_classes: null
+loss:
+  waveform_weight: 1.0
+  mrstft_weight: 1.0
+  kl_weight: 0.001
+  kl_warmup_steps: 2000
+  classification_weight: 0.0
+  spectral_eps: 0.0001
+  stft_resolutions:
+    - {n_fft: 512, win_length: 400, hop_length: 100, window: hann, center: true, normalized: false, onesided: true}
+    - {n_fft: 1024, win_length: 800, hop_length: 200}
+    - {n_fft: 2048, win_length: 1600, hop_length: 400}
+training:
+  batch_size: 4
+  learning_rate: 0.0003
+  weight_decay: 0.0
+  epochs: 50
+  amp: true
+  gradient_clip_norm: 1.0
+  cpu_threads: null
+metrics:
+  silence_rms: 0.00001
+  collapse_kl_threshold: 0.001
+evaluation:
+  save_examples: 4

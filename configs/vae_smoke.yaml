@@ -1,0 +1,49 @@
+experiment:
+  name: vae_smoke
+  output_dir: runs/vae_smoke
+  seed: 42
+data:
+  sample_rate: 16000
+  segment_seconds: 0.05
+  segment_validation: true
+  max_full_seconds: 1.0
+  manifest_mode: clean
+  audio_root: null
+  train_manifest: data/train_clean.list
+  valid_manifest: data/valid_clean.list
+  test_manifest: data/test_clean.list
+  class_labels:
+    train: null
+    valid: null
+    test: null
+  num_workers: 0
+model:
+  type: waveform_vae
+  channels: [8, 8, 16]
+  strides: [4, 4]
+  latent_channels: 4
+  classification_head: false
+  num_classes: null
+loss:
+  waveform_weight: 1.0
+  mrstft_weight: 1.0
+  kl_weight: 0.001
+  kl_warmup_steps: 4
+  classification_weight: 0.0
+  spectral_eps: 0.0001
+  stft_resolutions:
+    - {n_fft: 512, win_length: 400, hop_length: 100, window: hann, center: true, normalized: false, onesided: true}
+    - {n_fft: 1024, win_length: 800, hop_length: 200}
+training:
+  batch_size: 2
+  learning_rate: 0.0003
+  weight_decay: 0.0
+  epochs: 1
+  amp: true
+  gradient_clip_norm: 1.0
+  cpu_threads: 1
+metrics:
+  silence_rms: 0.00001
+  collapse_kl_threshold: 0.001
+evaluation:
+  save_examples: 1

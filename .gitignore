@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Training outputs
+runs/
+logs/
+checkpoints/
+wandb/
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+
+# Datasets
+/data/
+/datasets/
+*.wav
+*.flac
+
+# Data manifests
+*.list
+
+# Temporary files
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
